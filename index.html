@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return to Altair — a ship, an empty hold, and somewhere to be</title>
+<!-- The credit to the 1984 game lives in the footer, where it is a credit. It is deliberately not
+     in the description or the card: a search snippet and a link preview are advertising, and
+     another game's name in advertising stops reading as attribution and starts reading as a
+     borrowed audience. -->
+<meta name="description" content="An early-access space trading and combat game: buy low, jump, sell high, stay alive. Free for the whole of early access — macOS, Windows, Linux and the browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000814'/%3E%3Cpath d='M16 4 L28 26 L16 21 L4 26 Z' fill='none' stroke='%23ffe28a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:title" content="Return to Altair">
+<meta property="og:description" content="Trade, fly, survive. A space trading and combat game, free for the whole of early access — on every desktop and in a browser.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="header.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body data-page="home">
+
+<!-- The shared header. Same markup, same class names and the same header.css as the other sites
+     in this family — brand and page links left, feedback and the outbound icons right. -->
+<header class="bar"><nav class="nav" aria-label="Site">
+  <!-- The non-breaking space is load-bearing: .brand is a flex row, and a flex container trims the
+       trailing whitespace off a bare text node — so "Return to" and "Altair" would run together. -->
+  <a class="brand" href="index.html" title="Home">Return to&nbsp;<span>Altair</span></a>
+  <!-- The version is filled in from the newest release by site.js. Written here as the phase
+       alone because a number typed into a page is a number that goes stale in it: this badge
+       still read 0.1.0-alpha.1 two releases after that stopped being true, on the same page
+       whose panel underneath was naming the right one.
+
+       The phase is spelled out rather than repeated. It used to read "0.1.0-alpha.1 · alpha",
+       which says alpha twice — once in the tag, where it is part of the version, and once
+       after it, where it was meant to say what the version means. "Early access" is what it
+       was trying to say, and is the same two words the hero and the download panel use. -->
+  <span class="tag" data-version>Early access</span>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="releases.html">Releases</a>
+  </div>
+  <div class="links tools">
+    <details class="fb">
+      <summary>Feedback</summary>
+      <div class="fb-pop">
+        <a href="https://github.com/pavel-zheltiakov/ReturnToAltair/issues"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7 0-.7 0-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg><span><b>GitHub Issues</b><small>A crash, a ship that flies wrong, a price that looks off — in the open, where the answer helps the next commander.</small></span></a>
+        <a href="https://t.me/avadevtools/202"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.5c.3 1 1.6 1.3 2.3.5l2.4-2.5 4.5 3.3c.9.6 2.1.2 2.4-.9l3.4-14.9zM8.2 12.9l9.4-5.8c.4-.2.7.3.4.6l-7.7 7.2c-.3.3-.5.6-.5 1l-.3 2.3c0 .3-.5.4-.6.1l-1.1-3.7c-.2-.6.1-1.3.4-1.7z"/></svg><span><b>Telegram</b><small>The game's topic in the AvaDevTools group, for anything shorter than an issue.</small></span></a>
+      </div>
+    </details>
+    <a class="nav-ico" href="https://github.com/pavel-zheltiakov/ReturnToAltair" title="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7 0-.7 0-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
+    <a class="nav-ico" href="https://t.me/avadevtools/202" title="Telegram" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.5c.3 1 1.6 1.3 2.3.5l2.4-2.5 4.5 3.3c.9.6 2.1.2 2.4-.9l3.4-14.9zM8.2 12.9l9.4-5.8c.4-.2.7.3.4.6l-7.7 7.2c-.3.3-.5.6-.5 1l-.3 2.3c0 .3-.5.4-.6.1l-1.1-3.7c-.2-.6.1-1.3.4-1.7z"/></svg></a>
+  </div>
+</nav></header>
+
+<div class="hero-wrap">
+  <!-- The scene is the game's own ships and station, flown live. It is decoration and nothing on
+       the page depends on it, so it is hidden from assistive technology and every word over it is
+       real text. Without script the canvas stays empty and the hero is dark blue — which is what
+       the gradients above it already assume. -->
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <div class="hero">
+    <h1>Return to Altair</h1>
+    <!-- One sentence, and deliberately about nothing in particular: it has to still be true of
+         whatever this game turns into, so it names what a player has rather than what the
+         universe contains. Nothing about scale is claimed here until it is claimed for good. -->
+    <p class="lede">
+      A ship, an empty hold and a sky nobody has finished mapping — where you point it is the
+      whole game.
+    </p>
+    <!-- The caveat, and the only label the hero carries. It used to sit above the wordmark listing
+         the platforms as well, which the three buttons below already say in their own logos — so
+         the line kept the two words that are not written anywhere else on the page and came down
+         to where the sentence it qualifies is. "Free" then left the label for the sentence: alone
+         in a badge it reads as a property of the game and promises something about every build
+         there will ever be, and what is actually true is a fact about this phase — which needs a
+         sentence, because a phase has to be named. -->
+    <p class="eyebrow">Early access</p>
+    <p class="note">
+      Free for the whole of early access. Playable end to end and still moving: anything here can
+      be different in the next build.
+    </p>
+
+    <!-- The offer, both halves of it, side by side and both above the fold. Play in Browser was
+         under the hero and came out at 880 pixels down a 813-pixel window — the free half of the
+         offer, on the page nobody scrolled to. There is a column's worth of room to the right of
+         the panel, so it goes there. -->
+    <div class="offer">
+
+    <!-- Three platforms, six files, nothing to answer first. The big button is the platform and
+         gives the build most people on it want; the two under it are the architectures, each
+         naming what it is and what it weighs. Every link is filled in by site.js from the newest
+         release, so no version or filename is written down here. -->
+    <div class="get">
+      <h2>Download</h2>
+
+      <div class="oses">
+
+        <div class="os">
+          <a class="os-btn" data-build="macos-universal" href="https://github.com/pavel-zheltiakov/ReturnToAltair/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.9-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.02 2.28-1.27 3.13-2.53.99-1.45 1.4-2.85 1.42-2.92-.03-.01-2.72-1.04-2.75-4.12M14.6 4.6c.71-.87 1.19-2.07 1.06-3.27-1.02.04-2.26.68-3 1.54-.66.77-1.24 2-1.08 3.18 1.14.09 2.31-.58 3.02-1.45"/></svg>
+            <b>macOS</b>
+          </a>
+          <!-- One file, so one link. Two rows here would be the same download twice with two
+               different labels, which is a question where there was no choice to make. -->
+          <div class="tabs">
+            <a class="tab" data-build="macos-universal" href="#">ARM64/x64<i data-size></i></a>
+          </div>
+          <!-- One line each, and the extension is the first thing on it: it is a fact about the
+               platform rather than about either architecture, so it belongs here once and not on
+               both tabs twice. What a visitor needs before clicking is what the file is and what
+               the operating system will say when they open it; the reasoning is in the release
+               notes, which is where somebody who wants it is already going. -->
+          <p class="os-hint">Universal <code>.dmg</code>. Not notarized yet — Privacy&nbsp;&amp;&nbsp;Security: Open Anyway.</p>
+        </div>
+
+        <div class="os">
+          <a class="os-btn" data-build="windows-x64" href="https://github.com/pavel-zheltiakov/ReturnToAltair/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.6 10.1 4.6v6.8H3zM11.3 4.4 21 3v8.4h-9.7zM3 12.6h7.1v6.8L3 18.4zM11.3 12.6H21V21l-9.7-1.4z"/></svg>
+            <b>Windows</b>
+          </a>
+          <div class="tabs">
+            <a class="tab" data-build="windows-arm64" href="#">ARM64<i data-size></i></a>
+            <a class="tab" data-build="windows-x64" href="#">x64<i data-size></i></a>
+          </div>
+          <p class="os-hint">Portable <code>.zip</code>. Unzip and run — SmartScreen: More info, Run anyway.</p>
+        </div>
+
+        <div class="os">
+          <a class="os-btn" data-build="linux-x64" href="https://github.com/pavel-zheltiakov/ReturnToAltair/releases/latest">
+            <!-- The eyes are holes rather than shapes: fill-rule="evenodd" lets the button's own
+                 background through them, so the penguin follows the text colour on hover. -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 1.6c-2.1 0-3.7 1.7-3.7 3.9 0 .6.1 1.1.1 1.6 0 .9-.3 1.6-.9 2.4C6 11.6 5 13.5 5 15.5c0 1 .2 1.8.7 2.4-.5.8-.9 1.6-.9 2.3 0 .9.7 1.5 1.8 1.5.9 0 1.6-.4 2-1h6.8c.4.6 1.1 1 2 1 1.1 0 1.8-.6 1.8-1.5 0-.7-.4-1.5-.9-2.3.5-.6.7-1.4.7-2.4 0-2-1-3.9-2.5-6-.6-.8-.9-1.5-.9-2.4 0-.5.1-1 .1-1.6 0-2.2-1.6-3.9-3.7-3.9ZM10.4 5.5a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6ZM13.6 5.5a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6ZM12 7.3l1.5 1.2c-.4.5-.9.8-1.5.8s-1.1-.3-1.5-.8L12 7.3Z"/></svg>
+            <b>Linux</b>
+          </a>
+          <div class="tabs">
+            <a class="tab" data-build="linux-arm64" href="#">ARM64<i data-size></i></a>
+            <a class="tab" data-build="linux-x64" href="#">x64<i data-size></i></a>
+          </div>
+          <p class="os-hint">One-file <code>.AppImage</code>. <code>chmod +x</code> and run — no install, no deps.</p>
+        </div>
+
+      </div>
+
+      <p class="dl-note" id="download-note">Looking up the newest build…</p>
+    </div>
+
+      <!-- Built like a platform button and standing on the same line as the three of them, because
+           that is what it is: a fourth way to get the game, and the one that asks for nothing. Its
+           own colour, so it is not mistaken for a fourth operating system. -->
+      <div class="play-side">
+        <h2>Or</h2>
+        <!-- Four marks instead of one, because the answer to "will it run on mine" is the whole
+             point of this button, and the other three buttons answer it with a logo too. Drawn
+             here rather than fetched: simplified silhouettes in the page's own colour, so there is
+             no brand artwork on this site and no request to a CDN to render it.
+
+             Twenty-two pixels is the whole budget, and it is what decides which simplification is
+             allowed. Chrome and Safari survive it because each is one bold outline with a single
+             cut through it. Edge's wave and Firefox's fox do not: traced faithfully they arrive as
+             two grey smudges, which answers the question with a shape nobody can name. So the two
+             of them are drawn as the thing each browser is called instead of the thing its current
+             logo is — the letter and the flame — which is what a reader has to recognise anyway,
+             and which is still legible at this size. -->
+        <a class="play" href="play/">
+          <span class="browsers" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 8.66 5H12.5a5.5 5.5 0 0 0-5.28 4L4.2 5.8A9.97 9.97 0 0 1 12 2Z"/><path d="M3.35 7.35 7.4 14.4a5.5 5.5 0 0 0 4.55 3.08L8.9 21.6A10 10 0 0 1 3.35 7.35Z"/><path d="M21.4 8.5A10 10 0 0 1 12 22h-.6l4.06-7.03A5.5 5.5 0 0 0 16.6 8.5Z"/><circle cx="12" cy="12" r="3.4"/></svg>
+            <svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 1.8a10.2 10.2 0 1 0 0 20.4 10.2 10.2 0 0 0 0-20.4Zm0 1.9a8.3 8.3 0 1 1 0 16.6 8.3 8.3 0 0 1 0-16.6Z"/><path d="M17 7 10.6 10.6 7 17l6.4-3.6L17 7Zm-5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.6C6.8 2.6 2.6 6.8 2.6 12S6.8 21.4 12 21.4c3 0 5.6-1.4 7.3-3.5l-2.6-2a6.1 6.1 0 0 1-4.7 2.2 6.1 6.1 0 0 1-5.9-4.5h14.9c.1-.5.1-1 .1-1.6 0-5.2-4-9.4-9.1-9.4Zm-5.9 7.7A6.1 6.1 0 0 1 12 6.1a6.1 6.1 0 0 1 5.9 4.2H6.1Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 1.6c.7 3.2 2.4 5 4.2 6.9 2 2.1 3.6 4.2 3.6 7.1a7.8 7.8 0 0 1-15.6 0c0-2.3.9-4.1 2.2-5.7.2 1.4.8 2.4 1.9 2.9.8-3.6 1.7-7.3 3.7-11.2Z"/></svg>
+          </span>
+          <b>Play in Browser</b>
+        </a>
+        <p class="play-note">
+          No install, no account. The same game, in the tab — it needs WebGL&nbsp;2 and a keyboard.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <h2 class="sec-h">There is no plot, and nobody tells you what to do</h2>
+  <p class="sub">
+    You start docked at Lave with a Cobra Mk III, 100 credits and an empty hold. Everything after
+    that is yours.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Trade</h3>
+      <p>
+        Agricultural worlds sell food and furs and want machinery; industrial worlds are the
+        reverse. Some cargo is illegal in some jurisdictions, which is where the money is.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Fly</h3>
+      <p>
+        Launch, line up the planet, and cross the system on the torus drive — it cuts out the
+        moment anything gets close enough to mass-lock you. Docking is by hand unless you buy the
+        computer.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Survive</h3>
+      <p>
+        Pirates spawn by the government of the system you are in. An anarchy is a shooting gallery;
+        a corporate state is a quiet commute. Kills move you up the same ladder as the original —
+        Harmless, and eventually, almost never, Elite.
+      </p>
+    </div>
+  </div>
+
+  <div class="shots">
+    <figure>
+      <img src="screenshots/flight.webp" alt="Approaching a planet in flight, with the dashboard and scanner below" loading="lazy" width="1120" height="860">
+      <figcaption>Terrain, ice caps and cloud, generated rather than drawn.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/chart.webp" alt="The galactic chart showing all 256 systems of galaxy one" loading="lazy" width="1120" height="860">
+      <figcaption>The chart. Click a system to lock it for the jump, if your tank reaches.</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/market.webp" alt="The market prices screen at Lave" loading="lazy" width="1120" height="860">
+      <figcaption>The 1984 price algorithm, down to the goods that get you arrested.</figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<footer>
+  <!-- A footer credit is read years after it is written, so it says only what does not expire:
+       who made the original, that this is not connected to them, and where the material here came
+       from. It used to say "non-commercial" and "not for sale" as well — a description of how the
+       project stands today, written in the tense of a promise. What a build costs is a fact about
+       that build, and it belongs next to the button that hands it over. -->
+  <p>
+    <strong>Return to Altair</strong> — an independent tribute to <em>Elite</em> (Ian Bell and
+    David Braben, 1984), rebuilt from the sources and documentation its authors published, not
+    from the original binaries. Not affiliated with, endorsed by or connected to the rights
+    holders.
+  </p>
+  <p class="thin">
+    <a href="index.html">Home</a> ·
+    <a href="releases.html">Releases</a> ·
+    <a href="play/">Play in Browser</a> ·
+    <a href="https://github.com/pavel-zheltiakov/ReturnToAltair">GitHub</a> ·
+    <a href="https://github.com/pavel-zheltiakov/ReturnToAltair/issues">Issues</a> ·
+    <a href="https://t.me/avadevtools/202">Telegram</a>
+  </p>
+</footer>
+
+<script src="ships.js" defer></script>
+<script src="scene.js" defer></script>
+<script src="site.js" defer></script>
+</body>
+</html>
