@@ -1,0 +1,550 @@
+/*
+ * The landing page and the releases page. One stylesheet, no framework, no build step — the same
+ * arrangement as the other sites in this family, and the same header.css above it.
+ *
+ * The palette is the game's own, from web/style.css: a near-black blue, a HUD cyan, and the gold
+ * the wordmark is drawn in. Gold is the accent because gold is what the title screen says the
+ * product is called in; cyan belongs to the instruments and is used here for the same job — the
+ * thing that lights up when you touch it.
+ *
+ * Dark by default, because the game is a black screen. The reader's own setting still wins for the
+ * body of the page: someone in light mode reading release notes has been told nothing by a black
+ * page except that the page does not care about them. The hero is the exception and fixes its own
+ * colours, because it stands on a canvas that is night whatever the reader prefers.
+ */
+
+:root {
+  --bg: #000814;
+  --bg-alt: #04101d;
+  --panel: #020a12;
+  --line: #16324a;
+  --text: #d7eeff;
+  --dim: #7ea3ba;
+  --accent: #ffe28a;
+  --accent-ink: #1a1103;
+  --glow: #3fa8ff;
+  --bad: #ff5a5a;
+  --code: #cbe6f8;
+  --codebg: #010810;
+  --shadow: 0 10px 34px rgb(0 0 0 / 55%);
+  --bar: 58px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f4f7fa;
+    --panel: #ffffff;
+    --line: #dfe6ee;
+    --text: #10202c;
+    --dim: #55697a;
+    /* Gold on white is not a colour, it is a smudge. The accent keeps its identity by going
+       down rather than by changing hue — the same bronze the wordmark's shadow uses. */
+    --accent: #8a5a12;
+    --accent-ink: #ffffff;
+    --glow: #106a9c;
+    --bad: #b3241f;
+    --code: #16303f;
+    --codebg: #f1f5f8;
+    --shadow: 0 8px 28px rgb(12 26 40 / 12%);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); }
+h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.2; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  color: var(--code);
+}
+
+pre {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background: var(--codebg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 26px; }
+
+/* The top bar is header.css — the same file, markup and class names as every other site here. It
+   reads the properties above and nothing else.
+
+   One thing it does not know is how wide this site's column is, so the alignment is set here: the
+   same 1080 and the same 26 as `.wrap` and `.hero` above, which is what puts the brand over the
+   headline and the outbound icons over the panel's right edge. Left in header.css the bar is full
+   bleed, which on a 2560-wide monitor is a brand a foot to the left of everything it names. This
+   override rather than a fork, because header.css is shared with the other sites in this family
+   and loads before this file. */
+.bar .nav { max-width: 1080px; margin: 0 auto; padding: 0 26px; }
+
+/* ---- hero ----------------------------------------------------------------------------------
+   The scene behind the words is a canvas, not an image: ships out of the game's own model tables,
+   fighting over a Coriolis station. See scene.js. Inside .hero-wrap the palette stops following
+   the page and pins itself dark, so a light-mode reader gets a dark hero rather than black text
+   on a night sky. */
+
+.hero-wrap {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #000814;
+
+  --text: #eaf4ff;
+  --dim: #9fbdd2;
+  --line: rgb(127 190 235 / 26%);
+  --bg-alt: rgb(127 190 235 / 10%);
+  /* Opaque enough to stand in front of a sunlit planet. The scene behind the panel is the whole
+     right-hand half of the hero, and a lit limb crossing a paragraph is a paragraph nobody reads
+     at exactly the moment they are deciding whether to download it. */
+  --panel: rgb(2 10 18 / 86%);
+  --accent: #ffe28a;
+  --accent-ink: #1a1103;
+  --glow: #3fa8ff;
+  --code: #cbe6f8;
+}
+
+#scene {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Two scrims, doing two different jobs. The first darkens the left, where the words are, and
+   leaves the right — the planet and the station — alone. The second lands the hero on the page
+   below it instead of ending at a line. */
+.hero-wrap::before,
+.hero-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-wrap::before {
+  background: linear-gradient(96deg, rgb(0 6 14 / 88%) 0%, rgb(0 6 14 / 62%) 42%,
+                                     rgb(0 6 14 / 8%) 74%, rgb(0 6 14 / 0%) 100%);
+}
+
+.hero-wrap::after {
+  background: linear-gradient(180deg, rgb(0 8 20 / 55%) 0%, rgb(0 8 20 / 0%) 26%,
+                                      rgb(0 8 20 / 0%) 68%, var(--bg) 100%);
+}
+
+.hero {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 74px 26px 66px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--glow);
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  max-width: 15ch;
+  font-size: clamp(34px, 6vw, 62px);
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: 0 2px 0 rgb(0 0 0 / 55%), 0 0 34px rgb(255 226 138 / 22%);
+}
+
+.hero p.lede {
+  margin: 0 0 30px;
+  max-width: 52ch;
+  font-size: clamp(16px, 1.6vw, 18.5px);
+  color: var(--text);
+}
+
+.hero p.lede b { color: var(--accent); font-weight: 600; }
+
+/* The caveat under the pitch. Smaller and dimmer than the sentence above it because it is a
+   condition on that sentence rather than a second one — but it is not a footnote, and it is not
+   hidden at the bottom of the page where nobody deciding whether to download would read it. */
+.hero p.note {
+  margin: 0 0 28px;
+  max-width: 52ch;
+  font-size: 14px;
+  color: var(--dim);
+}
+
+/* ---- the download panel ---------------------------------------------------------------------
+   One column per platform: a big button that gives the build most people on it want, and under it
+   the two architectures, each naming its own file extension. Nothing has to be answered before a
+   download appears — every file on offer is on screen and one click away, which a picker with two
+   questions in front of it is not.
+
+   Beside it, in the room left over, the other half of the offer: the build that costs the visitor
+   nothing. Both halves are in the hero because both have to be on screen at once — the free one
+   was below the fold, and an offer nobody scrolls to is not an offer. */
+
+/* One panel, two halves, a line between them. Two separate cards would have read as two products,
+   and the right-hand half sits over the planet — where unbacked text is a paragraph nobody can
+   read at the one moment they are deciding. */
+.offer {
+  display: flex;
+  align-items: stretch;
+  max-width: 1000px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  backdrop-filter: blur(7px);
+  box-shadow: var(--shadow);
+}
+
+.get {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 20px 22px 20px;
+}
+
+/* Both halves are titled the same way and at the same height, which is what puts the four buttons
+   under them on one line. */
+.get h2, .play-side h2 {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* `minmax(0, 1fr)` rather than `1fr`, which is `minmax(auto, 1fr)` and so cannot go narrower than
+   its widest unbreakable line. The Linux column has two nowrap tabs and was the widest, so it took
+   a share of the row the other two did not get and the three platforms came out three different
+   sizes — the file names deciding the layout. A zero minimum means the three columns are the same
+   width whatever is written in them. */
+.oses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+
+.os { display: flex; flex-direction: column; }
+
+/* One recipe for all four buttons, the three platforms and the browser. Sharing the box rather
+   than matching two heights by hand is what keeps them on one line in every font on every system —
+   a fixed height here would be right on this machine and eight pixels out on somebody else's. */
+.os-btn, .play {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 17px 10px 15px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  transition: border-color 0.14s, color 0.14s, box-shadow 0.14s;
+}
+
+.os-btn { color: var(--text); background: var(--bg-alt); }
+
+.os-btn svg, .play svg { width: 30px; height: 30px; fill: currentColor; }
+.os-btn b, .play b { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; }
+
+.os-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 24px rgb(255 226 138 / 16%);
+}
+
+.tabs { display: flex; gap: 6px; margin-top: 8px; }
+
+.tab {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 3px;
+  text-align: center;
+  font-size: 12.5px;
+  text-decoration: none;
+  /* One line or nothing: "ARM 64 (*.AppImage)" wrapping puts one tab a row taller than the one
+     beside it, and two buttons of different heights read as two different kinds of thing. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  transition: border-color 0.14s, color 0.14s;
+}
+
+.tab:hover { color: var(--glow); border-color: var(--glow); }
+.tab:hover i { color: var(--glow); }
+
+/* The architecture is the tab's name and its weight goes on a second line under it. The extension
+   is not on the tab: it is the same for both tabs of a platform, so it was printed twice per
+   column and was the longest run of characters in the panel — which, in columns that are all one
+   width, is a file name spending the room the two tabs have to share. It is said once in the hint
+   below instead, and in full in the link's title. The second line is reserved whether or not there
+   is a size to put in it yet, so the panel does not resize under the pointer when the release list
+   arrives. */
+.tab i {
+  display: block;
+  min-height: 1.2em;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--dim);
+}
+
+/* A build this release has not got. It keeps its place and stops being a link, so the row is
+   always the same two files and a gap is visible as a gap rather than as a shorter list. */
+.tab[aria-disabled="true"] { opacity: 0.34; pointer-events: none; }
+
+.os-hint {
+  margin: 9px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--dim);
+}
+
+.dl-note {
+  margin: 16px 0 0;
+  min-height: 1.5em;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.dl-note a { color: var(--accent); }
+
+/* ---- play in the browser --------------------------------------------------------------------
+   The second column of the offer: beside the panel, not inside it. It is a different kind of
+   answer to the same question, so it is set apart by the word between them rather than dressed as
+   a fourth platform button. */
+
+.play-side {
+  flex: 0 0 250px;
+  padding: 20px 22px;
+  border-left: 1px solid var(--line);
+  text-align: center;
+}
+
+.play {
+  color: var(--glow);
+  border-color: var(--glow);
+  background: rgb(63 168 255 / 8%);
+  box-shadow: 0 0 26px rgb(63 168 255 / 14%);
+}
+
+/* Four marks in the space one logo has, so the row of icons is the same height as the row of
+   logos beside it and the four buttons stay one row rather than four boxes of different sizes. */
+.browsers { display: flex; align-items: center; gap: 7px; height: 30px; }
+.play .browsers svg { width: 22px; height: 22px; }
+
+.play:hover { color: #fff; background: rgb(63 168 255 / 16%); box-shadow: 0 0 34px rgb(63 168 255 / 34%); }
+
+/* Where the architecture tabs are on the other side of the line, and for the same reason: what the
+   button above it costs you. */
+.play-note { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: var(--dim); }
+
+/* ---- what it is -----------------------------------------------------------------------------
+   Three claims and the screenshots that back them. Anything longer belongs in the README, which
+   is one click away and is where somebody who wants the detail is already going. */
+
+section { padding: 46px 0; }
+
+.sec-h {
+  margin: 0 0 6px;
+  font-size: clamp(22px, 2.6vw, 30px);
+}
+
+.sub { margin: 0 0 30px; max-width: 62ch; color: var(--dim); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  padding: 20px 20px 22px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+}
+
+.card h3 { margin: 0 0 8px; font-size: 16.5px; color: var(--accent); }
+.card p { margin: 0; font-size: 14.5px; color: var(--dim); }
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.shots figure { margin: 0; }
+
+.shots img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #000814;
+}
+
+.shots figcaption { margin-top: 7px; font-size: 13px; color: var(--dim); }
+
+/* ---- releases -------------------------------------------------------------------------------
+   The list is fetched from the public repository's releases; the cards are built in site.js. */
+
+.releases { max-width: 860px; margin: 0 auto; padding: 42px 26px 20px; }
+.releases h2 { margin: 0 0 8px; font-size: clamp(24px, 3vw, 34px); }
+.lede { color: var(--dim); }
+
+.rel {
+  padding: 26px 0 6px;
+  border-top: 1px solid var(--line);
+  margin-top: 26px;
+}
+
+.rel:first-child { border-top: 0; }
+.rel h3 { margin: 0 0 14px; font-size: 21px; }
+
+.rel-pre, .rel-date {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.rel-pre {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 1px 8px;
+  margin-left: 6px;
+}
+
+.rel-date { margin-left: 8px; }
+
+.rel-body h3 { margin: 22px 0 8px; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--glow); }
+.rel-body h4 { margin: 18px 0 6px; font-size: 15px; color: var(--text); }
+.rel-body ul { margin: 0 0 14px; padding-left: 20px; }
+.rel-body li { margin-bottom: 5px; }
+.rel-body p { margin: 0 0 14px; }
+
+/* The asset list under each release. Deliberately small and deliberately last: six links is a
+   reference table, not the point of the page, and a reader who has come this far already knows
+   which of the six is theirs. */
+.assets {
+  margin: 18px 0 4px;
+  padding: 14px 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.assets b {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Wide enough for the longest row — "Linux (x64, arm64, AppImage)" and its size — because a
+   column that fits all but one of them wraps that one and nothing signals which. */
+.assets ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.assets li { display: flex; gap: 8px; align-items: baseline; }
+.assets li > span { color: var(--dim); font-size: 12.5px; }
+
+/* The OS name is what the eye is looking for, so it keeps the body colour while the chips and
+   the extension around it stay quiet. `nowrap` on the size: "27.8 MB" broken across two lines
+   reads as two numbers. */
+.assets li > span:last-child { white-space: nowrap; }
+.assets .dl-os { color: var(--text); font-weight: 600; font-size: 14px; }
+
+.footnote { color: var(--dim); font-size: 14px; }
+
+.scroller { overflow-x: auto; }
+
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--line); }
+th { color: var(--glow); font-weight: 600; }
+
+/* ---- footer ---------------------------------------------------------------------------------- */
+
+footer {
+  margin-top: 30px;
+  padding: 30px 26px 46px;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 14px;
+  text-align: center;
+}
+
+footer p { margin: 0 auto 8px; max-width: 74ch; }
+footer .thin { font-size: 13.5px; }
+
+/* ---- narrow ---------------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  /* header.css puts the bar on two rows below this width, and --bar is what an anchor scroll
+     subtracts. It has to grow with it, and it has to be set here because this file loads last. */
+  :root { --bar: 104px; }
+
+  .hero { padding: 54px 20px 48px; }
+
+  /* The two halves stack, and the line between them turns with them. */
+  .offer { flex-direction: column; max-width: none; }
+  .play-side { flex: 0 0 auto; border-left: 0; border-top: 1px solid var(--line); }
+
+  /* One platform per row. Three columns at this width leaves each tab about ninety pixels for
+     "ARM 64 (*.AppImage)", which is an ellipsis and no information. */
+  .oses { grid-template-columns: 1fr; gap: 20px; }
+
+  .os-btn, .play {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+    padding: 13px 10px;
+  }
+  .wrap, .releases { padding-left: 20px; padding-right: 20px; }
+
+  /* header.css uses 16 here; the page uses 20 on the line above. The bar is aligned to the page
+     at every other width, so it is aligned at this one too. */
+  .bar .nav { padding-left: 20px; padding-right: 20px; }
+
+  /* The scrim turns from a side-lit one into a veil. On a wide screen the words are in the left
+     column and the fight is in the right, so darkening across works; at this width the words are
+     the whole width, and a ship crossing behind a line of text is a line of text nobody reads.
+     Not so heavy that there is nothing behind them either — the panel below is opaque on its own
+     account, so the veil only has to carry the four lines above it. */
+  .hero-wrap::before {
+    background: linear-gradient(180deg, rgb(0 6 14 / 82%) 0%, rgb(0 6 14 / 70%) 40%,
+                                        rgb(0 6 14 / 44%) 100%);
+  }
+}
